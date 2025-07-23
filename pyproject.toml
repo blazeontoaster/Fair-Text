@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "fair-text"
+version = "0.1.0"
+description = "AI Bias Detector using Streamlit and OpenAI"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+streamlit = "^1.32.0"
+openai = "^1.0.0"
+python-dotenv = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "streamlit run app.py"
