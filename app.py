@@ -2,97 +2,69 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
-from streamlit_theme import st_theme
-
-# --- Detect current theme ---
-theme = st_theme()
-
-# Set default colors for dark and light themes
-if theme and theme.get('base') == 'light':
-    background = '#f5f6fa'
-    main_bg = '#fff'
-    box_bg = '#fff'
-    border = '#222'
-    text = '#181818'
-    title = '#1976d2'
-    subtitle = '#1976d2'
-    faded = '#333'
-    result_text = '#222'
-    footer = '#333'
-else:
-    background = '#181818'
-    main_bg = '#181818'
-    box_bg = '#181818'
-    border = '#fff'
-    text = '#fff'
-    title = '#90caf9'
-    subtitle = '#90caf9'
-    faded = '#b0b0b0'
-    result_text = '#e3f2fd'
-    footer = '#90a4ae'
 
 # --- Custom CSS for a modern, visually appealing UI that adapts to theme ---
-st.markdown(f'''
+st.markdown('''
     <style>
-    body {{
-        background: {background} !important;
-    }}
-    .main {{
-        background: {main_bg};
+    body {
+        background: var(--background-color) !important;
+    }
+    .main {
+        background: var(--background-color);
         border-radius: 16px;
         box-shadow: 0 2px 16px rgba(0,0,0,0.07);
         padding: 32px 24px 24px 24px;
         max-width: 700px;
         margin: 40px auto;
-    }}
-    .fade-out {{
+    }
+    .fade-out {
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.7s;
-    }}
-    .result-section {{
+    }
+    .result-section {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 2.5rem;
         margin-top: 2.5rem;
         animation: fadeIn 1s;
-    }}
-    @keyframes fadeIn {{
-        from {{ opacity: 0; }}
-        to {{ opacity: 1; }}
-    }}
-    .result-box {{
-        background: {box_bg};
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .result-box {
+        background: var(--background-color);
         border-radius: 14px;
         padding: 32px 28px;
         box-shadow: 0 2px 16px rgba(33,150,243,0.10);
         min-width: 350px;
         max-width: 700px;
-        color: {text};
-        border: 2px solid {border};
+        color: var(--text-color);
+        border: 2px solid var(--text-color);
         margin-bottom: 0.5em;
-    }}
-    .result-title {{
+    }
+    .result-title {
         font-size: 2.1rem;
-        color: {title};
+        color: var(--primary-color);
         font-weight: 700;
         margin-bottom: 0.7em;
         text-align: center;
         letter-spacing: 0.03em;
-    }}
-    .result-text {{
+    }
+    .result-text {
         font-size: 1.35rem;
-        color: {result_text};
+        color: var(--text-color);
         font-weight: 500;
         text-align: center;
         word-break: break-word;
-    }}
-    .home-btn {{
+    }
+    .home-btn {
         display: block;
         margin: 2.5rem auto 0 auto;
-        background: #1976d2;
-        color: #fff;
+        background: var(--primary-color);
+        color: var(--background-color);
         border: none;
         border-radius: 8px;
         padding: 16px 36px;
@@ -101,36 +73,36 @@ st.markdown(f'''
         cursor: pointer;
         transition: background 0.2s;
         box-shadow: 0 2px 8px rgba(33,150,243,0.10);
-    }}
-    .home-btn:hover {{
+    }
+    .home-btn:hover {
         background: #125ea7;
-    }}
-    .stTextArea textarea {{
+    }
+    .stTextArea textarea {
         min-height: 120px;
         font-size: 1.1rem;
         border-radius: 8px;
         border: none;
-        background: {main_bg};
-        color: {text};
+        background: var(--background-color);
+        color: var(--text-color);
         box-shadow: none;
-    }}
-    .stTextArea textarea::placeholder {{
-        color: {faded};
-        opacity: 1;
-    }}
-    .stRadio > div {{
+    }
+    .stTextArea textarea::placeholder {
+        color: var(--text-color);
+        opacity: 0.7;
+    }
+    .stRadio > div {
         flex-direction: row;
         gap: 2rem;
-    }}
-    h1, h4, label, .stRadio label, .stTextArea label, .footer {{
-        color: {text} !important;
-    }}
-    .footer {{
+    }
+    h1, h4, label, .stRadio label, .stTextArea label, .footer {
+        color: var(--text-color) !important;
+    }
+    .footer {
         text-align: center;
-        color: {footer} !important;
+        color: var(--text-color) !important;
         font-size: 0.95rem;
         margin-top: 40px;
-    }}
+    }
     </style>
 ''', unsafe_allow_html=True)
 
@@ -149,10 +121,10 @@ if 'bias_removed' not in st.session_state:
 
 # --- Home/Input Page ---
 if st.session_state.page == 'home':
-    st.markdown(f"""
+    st.markdown("""
     <div class="main" id="main-card">
-    <h1 style='text-align:center; background:{main_bg}; color:{title}; border-radius:12px; padding:18px 0 18px 0; margin-bottom:0.5em;'>Fair-Text: AI Bias Detector</h1>
-    <p style='text-align:center; color:{faded}; font-size:1.15rem;'>Paste your text below. The app will flag potentially biased words or phrases and suggest more fair or neutral alternatives using Gemma 3 27B.</p>
+    <h1 style='text-align:center; background:var(--background-color); color:var(--primary-color); border-radius:12px; padding:18px 0 18px 0; margin-bottom:0.5em;'>Fair-Text: AI Bias Detector</h1>
+    <p style='text-align:center; color:var(--text-color); font-size:1.15rem;'>Paste your text below. The app will flag potentially biased words or phrases and suggest more fair or neutral alternatives using Gemma 3 27B.</p>
     """, unsafe_allow_html=True)
 
     with st.form("analyze_form"):
