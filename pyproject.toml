@@ -1,14 +1,19 @@
 [tool.poetry]
 name = "fair-text"
 version = "0.1.0"
-description = "AI Bias Detector using Streamlit and OpenAI"
+description = "AI Bias Detector using Streamlit and Hugging Face Inference API"
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = "^3.12"
 streamlit = "^1.32.0"
-openai = "^1.0.0"
+requests = "^2.31.0"
 python-dotenv = "^1.0.0"
+torch = "^2.7.1"
+transformers = "4.36.2"
+blobfile = "^3.0.0"
+sentencepiece = "^0.2.0"
+google-generativeai = "^0.8.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
